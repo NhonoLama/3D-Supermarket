@@ -4,8 +4,15 @@ import { Canvas } from "@react-three/fiber";
 import { KeyboardControls } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
 
+import type { StoreProduct } from "@/types/store-product";
+
+import { testProducts } from "@/data/mock-products";
+
 import MouseLook from "@/components/store/MouseLook";
-import PlayerMovement from "@/components/store/PlayerMovement";
+import Player from "@/components/store/Player";
+import StoreEnvironment from "@/components/store/StoreEnvironment";
+import Shelf from "@/components/store/Shelf";
+import ShelfProductRow from "@/components/store/ShelfProductRow";
 
 const keyboardMap = [
   {
@@ -43,31 +50,23 @@ export default function StoreScene() {
         <directionalLight position={[5, 10, 5]} intensity={2} />
 
         <Physics debug>
-          <PlayerMovement />
+          <Player />
+          <StoreEnvironment />
+          {/* Left side of aisle */}
+          <Shelf position={[-3, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
+            <ShelfProductRow y={1.35} products={testProducts} />
+          </Shelf>
 
-          {/* Floor */}
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-            <planeGeometry args={[20, 20]} />
-            <meshStandardMaterial color="#d9d9d9" />
-          </mesh>
+          <Shelf position={[-3, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
 
-          {/* Back wall */}
-          <mesh position={[0, 2, -10]}>
-            <boxGeometry args={[20, 4, 0.2]} />
-            <meshStandardMaterial color="#f5f5f5" />
-          </mesh>
+          <Shelf position={[-3, 0, 4]} rotation={[0, Math.PI / 2, 0]} />
 
-          {/* Left wall */}
-          <mesh position={[-10, 2, 0]}>
-            <boxGeometry args={[0.2, 4, 20]} />
-            <meshStandardMaterial color="#eeeeee" />
-          </mesh>
+          {/* Right side of aisle */}
+          <Shelf position={[3, 0, -4]} rotation={[0, Math.PI / 2, 0]} />
 
-          {/* Right wall */}
-          <mesh position={[10, 2, 0]}>
-            <boxGeometry args={[0.2, 4, 20]} />
-            <meshStandardMaterial color="#eeeeee" />
-          </mesh>
+          <Shelf position={[3, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
+
+          <Shelf position={[3, 0, 4]} rotation={[0, Math.PI / 2, 0]} />
         </Physics>
       </Canvas>
     </KeyboardControls>
